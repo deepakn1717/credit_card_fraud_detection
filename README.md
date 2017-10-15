@@ -18,6 +18,7 @@ creditcardfraud <- read.csv("C:\\Users\\deepa\\Desktop\\Data Sets\\creditcardfra
 head(creditcardfraud)
 str(creditcardfraud)
 ```
+```
 'data.frame':	284807 obs. of  31 variables:
  $ Time  : num  0 0 1 1 2 2 4 7 7 9 ...
  $ V1    : num  -1.36 1.192 -1.358 -0.966 -1.158 ...
@@ -50,4 +51,95 @@ str(creditcardfraud)
  $ V28   : num  -0.0211 0.0147 -0.0598 0.0615 0.2152 ...
  $ Amount: num  149.62 2.69 378.66 123.5 69.99 ...
  $ Class : int  0 0 0 0 0 0 0 0 0 0 ...
+```
+# converting class variable from int to factor
+```
+creditcardfraud$Class <- as.factor(creditcardfraud$Class)
+class(creditcardfraud$Class)
+```
+```
+[1] "factor"
+```
+## Predictive Modeling
+# split data into test and train
+```
+nrow(creditcardfraud)
+```
+```
+> nrow(creditcardfraud)
+[1] 284807
+```
+```
+set.seed(1)
+split <- sample.split(creditcardfraud, SplitRatio = 0.7)
+train <- subset(creditcardfraud, split == T)
+test <- subset(creditcardfraud, split == F)
+nrow(train) + nrow(test)
+```
+```
+nrow(train) + nrow(test)
+[1] 284807
+```
+```
+table(test$Class)
+```
+```
+0     1 
+91721   153 
+```
+# logical regression model
+```
+glm.model <- glm(Class ~ ., data = train, family = "binomial")
+glm.predict <- predict(glm.model, test, type = "response")
+table(test$Class, glm.predict > 0.5)
+summary(glm.model)
+```
+```
+FALSE  TRUE
+##   0 85279    16
+##   1    69    79
+99.900518 % accuracy using logistic regression model.
+```
+# decision tree
+```
+tree.model <- rpart(Class ~ ., data = train, method = "class")
+prp(tree.model) 
+fancyRpartPlot(tree.model)
+summary(tree.model)
+tree.predict <- predict(tree.model, test, type = "class")
+confusionMatrix(test$Class, tree.predict)
+```
+```
+confusionMatrix(test$Class, tree.predict)
+Confusion Matrix and Statistics
 
+          Reference
+Prediction     0     1
+         0 91705    16
+         1    45   108
+                                          
+               Accuracy : 0.9993  
+
+```
+# random forest metod
+```
+set.seed(10)
+rf.model <- randomForest(Class ~ ., data = train, ntree = 2000, nodesize = 20)
+
+rf.predict <- predict(rf.model, test)
+confusionMatrix(test$Class, rf.predict)
+```
+```
+Confusion Matrix and Statistics
+
+          Reference
+Prediction     0     1
+         0 91713     8
+         1    45   108
+                                          
+               Accuracy : 0.9994          
+                 95% CI : (0.9992, 0.9996)
+    No Information Rate : 0.9987          
+    P-Value [Acc > NIR] : 4.543e-11  
+
+```
