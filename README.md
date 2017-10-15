@@ -11,10 +11,10 @@ library(randomForest)
 ```
 # Importing data into RStudio
 ```
-creditcardfraud <- read.csv("C:\\Users\\deepa\\Desktop\\Data Sets\\creditcardfraud\\creditcard.csv") ```
-# understanding data
+creditcardfraud <- read.csv("C:\\Users\\deepa\\Desktop\\Data Sets\\creditcardfraud\\creditcard.csv")
 ```
-class(creditcardfraud)
+# understanding data
+```class(creditcardfraud)
 head(creditcardfraud)
 str(creditcardfraud)
 ```
