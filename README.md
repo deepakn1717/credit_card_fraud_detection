@@ -7,6 +7,6 @@ library(rpart.plot)
 library(rattle)
 library(caret)
 library(randomForest)
-#Importing data into RStudio
+# Importing data into RStudio
 creditcardfraud <- read.csv("C:\\Users\\deepa\\Desktop\\Data Sets\\creditcardfraud\\creditcard.csv")
-#understanding data
+# understanding data
