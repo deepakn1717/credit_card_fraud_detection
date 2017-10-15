@@ -121,6 +121,7 @@ Prediction     0     1
                Accuracy : 0.9993  
 
 ```
+![desion tree](https://user-images.githubusercontent.com/11747667/31587796-e2687d14-b1b5-11e7-8e3a-2262febe9ceb.JPG)
 # random forest metod
 ```
 set.seed(10)
